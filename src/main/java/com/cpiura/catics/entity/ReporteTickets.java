@@ -1,6 +1,6 @@
 package com.cpiura.catics.entity;
 
-import java.time.LocalDateTime;
+// import java.time.String;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,51 +8,62 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReporteTickets {
-    private String catic;                     // Campo INT
-    private String detalle;                 // Campo VARCHAR
-    private LocalDateTime ingreso;          // Campo TIMESTAMP
-    private LocalDateTime asignacion;       // Campo DATETIME
-    private String prioridad;                // Campo VARCHAR
-    private String estado;                   // Campo VARCHAR
-    private String tipo;                     // Campo VARCHAR
-    private String userDev;                  // Campo VARCHAR
-    private LocalDateTime fecDev;           // Campo DATETIME
-    private String userQa;                   // Campo VARCHAR
-    private LocalDateTime fecQa;            // Campo TIMESTAMP
-    private String userCc;                   // Campo VARCHAR
-    private LocalDateTime fecCc;            // Campo TIMESTAMP
-    private String userProd;                 // Campo VARCHAR
-    private LocalDateTime fecProd;          // Campo TIMESTAMP
-    private String bandeja;                  // Campo VARCHAR
-    private String garantia;                 // Campo VARCHAR
-    private String category;                 // Campo TEXT
+    private Integer catic;
+    private String detalle; // Único campo detalle
+    private String ingreso; // Cambiado a String
+    private String asignacion; // Cambiado a String
+    private String prioridad;
+    private String estado;
+    private String tipo;
+    private String userDev;
+    private String fecDev; // Cambiado a String
+    private String userQA;
+    private String userCC;
+    private String fecQA; // Cambiado a String
+    private String userProd;
+    private String fecProd; // Cambiado a String
+    private String bandeja;
+    private String garantia;
+    private String categoria;
 
     // Constructor
-    public ReporteTickets(String catic, String detalle, LocalDateTime ingreso, LocalDateTime asignacion,
-                        String prioridad, String estado, String tipo, String userDev,
-                        LocalDateTime fecDev, String userQa, LocalDateTime fecQa,
-                        String userCc, LocalDateTime fecCc, String userProd,
-                        LocalDateTime fecProd, String bandeja, String garantia, String category) {
+    public ReporteTickets(
+            Integer catic,
+            String detalle,
+            String ingreso,
+            String asignacion,
+            String prioridad,
+            String estado,
+            String tipo,
+            String userDev,
+            String fecDev,
+            String userQA,
+            String userCC,
+            String fecQA,
+            String userProd,
+            String fecProd,
+            String bandeja,
+            String garantia,
+            String categoria
+            ) {
         this.catic = catic;
-        this.detalle = detalle;
-        this.ingreso = ingreso;
+        this.detalle = detalle; // Campo detalle único
         this.asignacion = asignacion;
-        this.prioridad = prioridad;
+        this.prioridad = prioridad; // Valor por defecto
         this.estado = estado;
         this.tipo = tipo;
         this.userDev = userDev;
         this.fecDev = fecDev;
-        this.userQa = userQa;
-        this.fecQa = fecQa;
-        this.userCc = userCc;
-        this.fecCc = fecCc;
+        this.userQA = userQA;
+        this.userCC = userCC;
+        this.fecQA = fecQA;
         this.userProd = userProd;
         this.fecProd = fecProd;
         this.bandeja = bandeja;
         this.garantia = garantia;
-        this.category = category;
+        this.categoria = categoria;
     }
 
-    // Getters y setters
+    // Getters y Setters
     // ...
 }
