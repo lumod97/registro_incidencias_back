@@ -125,20 +125,12 @@ public class ReporteTicketsService {
 
                         // Incrementar el campo correspondiente en la entidad
                         switch (prioridad.toLowerCase()) {
-                                case "low":
-                                        stats.setLow(cantidad.intValue());
-                                        break;
-                                case "medium":
-                                        stats.setMedium(cantidad.intValue());
-                                        break;
-                                case "high":
-                                        stats.setHigh(cantidad.intValue());
-                                        break;
-                                case "critical":
-                                        stats.setCritical(cantidad.intValue());
-                                        break;
-                                default:
-                                        break;
+                                case "low" -> stats.setLow(cantidad.intValue());
+                                case "medium" -> stats.setMedium(cantidad.intValue());
+                                case "high" -> stats.setHigh(cantidad.intValue());
+                                case "critical" -> stats.setCritical(cantidad.intValue());
+                                default -> {
+                        }
                         }
                 }
 
