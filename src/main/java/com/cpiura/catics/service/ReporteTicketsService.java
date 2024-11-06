@@ -6,8 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cpiura.catics.Request.GetTicketsByUserIdRequest;
 import com.cpiura.catics.Request.ReportPerPersonRequest;
 import com.cpiura.catics.Request.TicketStatisticksPerMonthRequest;
+import com.cpiura.catics.entity.GetTicketsByUserId;
 import com.cpiura.catics.entity.ReportPerPerson;
 import com.cpiura.catics.entity.ReporteTickets;
 import com.cpiura.catics.entity.TicketsPriorityStats;
@@ -153,6 +155,63 @@ public class ReporteTicketsService {
 
                 return stats;
         }
+
+
+        public List<GetTicketsByUserId> GetTicketsByUserId(GetTicketsByUserIdRequest request) {
+                StoredProcedureQuery query = entityManager.createStoredProcedureQuery(
+                                "GetTicketsByUserId");
+                                // "get_report_per_person ('2024-10-01', '2024-10-31', 1, 50);");
+
+                // Registra los parámetros con sus tipos y modos
+                query.registerStoredProcedureParameter(0, String.class, ParameterMode.IN);
+
+                // Configura los valores de los parámetros
+                query.setParameter(0, request.getUserId());
+                @SuppressWarnings("unchecked")
+                List<Object[]> results = query.getResultList();
+
+                // Crear un objeto de TicketsPriorityStats y llenarlo con valores
+                // predeterminados
+                List<GetTicketsByUserId> stats = new ArrayList<>();
+                // ReportPerPerson item = new ReportPerPerson(0, null, null, 0, 0, 0, 0, 0, 0, null);
+
+                // Procesar los resultados
+                for (Object[] row : results) {
+                        GetTicketsByUserId item = new GetTicketsByUserId("null", "null", "null", "null", "null", 0, "null", "null", "null", "null", "null", "null");
+
+                        String catic = (String) row[0].toString();
+                        String descripcion = (String) row[1]; // estado
+                        String fecha_creacion = (String) row[2]; // estado
+                        String fecha_cierre = (String) row[3].toString(); // estado
+                        String fecha_resuelto = (String) row[4].toString(); // estado
+                        Integer id = (Integer) Integer.parseInt(row[5].toString()); // estado
+                        String user_name = (String) row[6].toString(); // estado
+                        String user_last_name = (String) row[7].toString(); // estado
+                        String cargo = (String) row[8].toString(); // estado
+                        String prioridad = (String) row[9].toString(); // estado
+                        String estado = (String) row[10].toString(); // estado
+                        String tipo = (String) row[11].toString(); // estado
+
+                        item.setCatic(catic);
+                        item.setDescripcion(descripcion);
+                        item.setFecha_creacion(fecha_creacion);
+                        item.setFecha_cierre(fecha_cierre);
+                        item.setFecha_resuelto(fecha_resuelto);
+                        item.setId(id);
+                        item.setUser_name(user_name);
+                        item.setUser_last_name(user_last_name);
+                        item.setCargo(cargo);
+                        item.setPrioridad(prioridad);
+                        item.setEstado(estado);
+                        item.setTipo(tipo);
+
+                        stats.add(item);
+                }
+
+                return stats;
+        }
+
+
         
         public List<ReporteTickets> getTicketsReport() {
                 // Crear una consulta de procedimiento almacenado

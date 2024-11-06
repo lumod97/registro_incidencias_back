@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cpiura.catics.Request.GetTicketsByUserIdRequest;
 import com.cpiura.catics.Request.ReportPerPersonRequest;
 import com.cpiura.catics.Request.TicketStatisticksPerMonthRequest;
+import com.cpiura.catics.entity.GetTicketsByUserId;
 import com.cpiura.catics.entity.ReportPerPerson;
 import com.cpiura.catics.entity.ReporteTickets;
 import com.cpiura.catics.entity.TicketsPriorityStats;
@@ -47,6 +49,11 @@ public class ReporteTicketController {
     @PostMapping("/tickets/get-report-per-person")
     public List<ReportPerPerson> getReportPerPerson(@RequestBody ReportPerPersonRequest request) {
         return reporteTicketsService.getReportPerPerson(request);
+    }
+
+    @PostMapping("/tickets/get-tickets-by-user-id")
+    public List<GetTicketsByUserId> getTicketsByUserId(@RequestBody GetTicketsByUserIdRequest request) {
+        return reporteTicketsService.GetTicketsByUserId(request);
     }
 
 }
