@@ -16,6 +16,8 @@ public class ReportPerPerson {
     private Integer solved;
     private Integer closed;
     private Integer cancelled;
+    private Integer meta;
+
     public Integer getId() {
         return id;
     }
@@ -45,6 +47,9 @@ public class ReportPerPerson {
     }
     public Integer getCancelled() {
         return cancelled != null ? cancelled : 0;
+    }
+    public Integer getMeta() {
+        return meta != null ? meta : 0;
     }
 }
 

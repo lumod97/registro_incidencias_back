@@ -20,4 +20,10 @@ public class GetTicketsByUserId {
     private String prioridad;
     private String estado;
     private String tipo;
+    private Integer totalSolicitudesResueltos;
+    private Integer totalSolicitudesAsignados;
+    private Integer totalIncidenciasResueltos;
+    private Integer totalIncidenciasAsignados;
+    private Double porcentajeMeta;
+    private Integer meta;
 }

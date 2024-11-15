@@ -1,5 +1,6 @@
 package com.cpiura.catics.service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,11 +102,11 @@ public class ReporteTicketsService {
 
                 return stats;
         }
-        
+
         public List<ReportPerPerson> getReportPerPerson(ReportPerPersonRequest request) {
                 StoredProcedureQuery query = entityManager.createStoredProcedureQuery(
                                 "get_report_per_person");
-                                // "get_report_per_person ('2024-10-01', '2024-10-31', 1, 50);");
+                // "get_report_per_person ('2024-10-01', '2024-10-31', 1, 50);");
 
                 // Registra los parámetros con sus tipos y modos
                 query.registerStoredProcedureParameter(0, String.class, ParameterMode.IN);
@@ -124,10 +125,10 @@ public class ReporteTicketsService {
                 // Crear un objeto de TicketsPriorityStats y llenarlo con valores
                 // predeterminados
                 List<ReportPerPerson> stats = new ArrayList<>();
-                
+
                 // Procesar los resultados
                 for (Object[] row : results) {
-                        ReportPerPerson item = new ReportPerPerson(0, null, null, 0, 0, 0, 0, 0, 0, null);
+                        ReportPerPerson item = new ReportPerPerson(0, null, null, 0, 0, 0, 0, 0, 0, null, 0);
                         Integer id = (Integer) Integer.parseInt(row[0].toString()); // cantidad
                         String user = (String) row[1] != null ? row[1].toString() : ""; // estado
                         String charge = (String) row[2] != null ? row[2].toString() : ""; // estado
@@ -138,6 +139,7 @@ public class ReporteTicketsService {
                         Integer solved = (Integer) Integer.parseInt(row[7].toString()); // estado
                         Integer closed = (Integer) Integer.parseInt(row[8].toString()); // estado
                         Integer cancelled = (Integer) Integer.parseInt(row[9].toString()); // estado
+                        Integer meta = (Integer) Integer.parseInt(row[10].toString()); // estado
 
                         item.setId(id);
                         item.setUser(user);
@@ -149,6 +151,7 @@ public class ReporteTicketsService {
                         item.setSolved(solved);
                         item.setClosed(closed);
                         item.setCancelled(cancelled);
+                        item.setMeta(meta);
 
                         stats.add(item);
                 }
@@ -156,11 +159,10 @@ public class ReporteTicketsService {
                 return stats;
         }
 
-
         public List<GetTicketsByUserId> GetTicketsByUserId(GetTicketsByUserIdRequest request) {
                 StoredProcedureQuery query = entityManager.createStoredProcedureQuery(
                                 "GetTicketsByUserId");
-                                // "get_report_per_person ('2024-10-01', '2024-10-31', 1, 50);");
+                // "get_report_per_person ('2024-10-01', '2024-10-31', 1, 50);");
 
                 // Registra los parámetros con sus tipos y modos
                 query.registerStoredProcedureParameter(0, String.class, ParameterMode.IN);
@@ -173,11 +175,24 @@ public class ReporteTicketsService {
                 // Crear un objeto de TicketsPriorityStats y llenarlo con valores
                 // predeterminados
                 List<GetTicketsByUserId> stats = new ArrayList<>();
-                // ReportPerPerson item = new ReportPerPerson(0, null, null, 0, 0, 0, 0, 0, 0, null);
+                // ReportPerPerson item = new ReportPerPerson(0, null, null, 0, 0, 0, 0, 0, 0,
+                // null);
+                // Contador de tickets "RESUELTO"
+                int resueltoSolicitudCount = 0;
+                int asignadoSolicitudCount = 0;
+                int resueltoIncidenciaCount = 0;
+                int asignadoIncidenciaCount = 0;
+                int meta = 0;
 
                 // Procesar los resultados
                 for (Object[] row : results) {
-                        GetTicketsByUserId item = new GetTicketsByUserId("null", "null", "null", "null", "null", 0, "null", "null", "null", "null", "null", "null");
+                        GetTicketsByUserId item = new GetTicketsByUserId("null", "null", "null", "null", "null", 0,
+                                        "null", "null", "null", "null", "null", "null",
+                                        0, 0,
+                                        0, 0,
+                                        0.00, 0);
+
+                        meta = (Integer) Integer.parseInt(row[12].toString());
 
                         String catic = (String) row[0].toString();
                         String descripcion = (String) row[1]; // estado
@@ -192,6 +207,25 @@ public class ReporteTicketsService {
                         String estado = (String) row[10].toString(); // estado
                         String tipo = (String) row[11].toString(); // estado
 
+                        if ("Solicitud".equalsIgnoreCase(row[11].toString())) {
+                                // Contar los tickets "RESUELTO"
+                                if ("RESUELTO".equalsIgnoreCase(row[10].toString())) {
+                                        resueltoSolicitudCount++;
+                                }
+                                if ("ASIGNADO".equalsIgnoreCase(row[10].toString())) {
+                                        asignadoSolicitudCount++;
+                                }
+                        }
+                        if ("Incidencia".equalsIgnoreCase(row[11].toString())) {
+                                // Contar los tickets "RESUELTO"
+                                if ("RESUELTO".equalsIgnoreCase(row[10].toString())) {
+                                        resueltoIncidenciaCount++;
+                                }
+                                if ("ASIGNADO".equalsIgnoreCase(row[10].toString())) {
+                                        asignadoIncidenciaCount++;
+                                }
+                        }
+
                         item.setCatic(catic);
                         item.setDescripcion(descripcion);
                         item.setFecha_creacion(fecha_creacion);
@@ -204,15 +238,31 @@ public class ReporteTicketsService {
                         item.setPrioridad(prioridad);
                         item.setEstado(estado);
                         item.setTipo(tipo);
+                        // item.setTotalResueltos(resueltoSolicitudCount);
 
                         stats.add(item);
                 }
 
+                stats.get(0).setTotalSolicitudesResueltos(resueltoSolicitudCount);
+                stats.get(0).setTotalSolicitudesAsignados(asignadoSolicitudCount);
+                stats.get(0).setTotalIncidenciasResueltos(resueltoIncidenciaCount);
+                stats.get(0).setTotalIncidenciasAsignados(asignadoIncidenciaCount);
+                stats.get(0).setMeta(meta);
+
+                // Calcula el porcentaje usando el operador ternario
+                double porcentaje = (meta != 0)
+                                ? (resueltoSolicitudCount * 1.0 / meta) * 100.00 // Si meta no es 0, realiza el cálculo
+                                : 100.0; // Si meta es 0, asigna 100.0
+
+                // Crea un formato para redondear a 2 decimales
+                DecimalFormat df = new DecimalFormat("#.##");
+
+                // Redondea el resultado a 2 decimales y asignalo
+                stats.get(0).setPorcentajeMeta(Double.parseDouble(df.format(porcentaje)));
+
                 return stats;
         }
 
-
-        
         public List<ReporteTickets> getTicketsReport() {
                 // Crear una consulta de procedimiento almacenado
                 StoredProcedureQuery query = entityManager.createStoredProcedureQuery("sp_get_ticket_report");
