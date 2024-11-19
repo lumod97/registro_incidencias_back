@@ -15,17 +15,16 @@ public interface MetasRepository extends JpaRepository<Metas, Integer> {
 
     // Consulta personalizada con @Query
     @Query("SELECT m FROM Metas m WHERE " +
-    "(:periodo IS NULL OR :periodo = '' OR m.periodo = :periodo) " +
-    "AND (:userId IS NULL OR :userId = '' OR m.userId = :userId)")
-List<Metas> findByPeriodoOrUserId(@Param("periodo") String periodo, @Param("userId") String userId);
+            "(:periodo IS NULL OR :periodo = '' OR m.periodo = :periodo) " +
+            "AND (:userId IS NULL OR :userId = '' OR m.userId = :userId)")
+    List<Metas> findByPeriodoOrUserId(@Param("periodo") String periodo, @Param("userId") String userId);
 
-// Consulta personalizada con @Query usando SQL nativo
-@Query(value = "SELECT m.id AS idMeta, m.periodo, m.meta, u.name " +
-"FROM glpi_metas m " +
-"INNER JOIN glpi_users u ON u.id = m.user_id " +
-"WHERE (:periodo IS NULL OR :periodo = '' OR m.periodo = :periodo) " +
-"AND (:userId IS NULL OR :userId = '' OR u.id = :userId)", nativeQuery = true)
-List<Object[]> findMetasFiltered(@Param("periodo") String periodo, @Param("userId") String userId);
-
+    // Consulta personalizada con @Query usando SQL nativo
+    @Query(value = "SELECT m.id AS idMeta, m.periodo, m.meta, u.name " +
+            "FROM glpi_metas m " +
+            "INNER JOIN glpi_users u ON u.id = m.user_id " +
+            "WHERE (:periodo IS NULL OR :periodo = '' OR m.periodo = :periodo) " +
+            "AND (:userId IS NULL OR :userId = '' OR u.id = :userId)", nativeQuery = true)
+    List<Object[]> findMetasFiltered(@Param("periodo") String periodo, @Param("userId") String userId);
 
 }

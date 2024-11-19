@@ -129,17 +129,17 @@ public class ReporteTicketsService {
                 // Procesar los resultados
                 for (Object[] row : results) {
                         ReportPerPerson item = new ReportPerPerson(0, null, null, 0, 0, 0, 0, 0, 0, null, 0);
-                        Integer id = (Integer) Integer.parseInt(row[0].toString()); // cantidad
-                        String user = (String) row[1] != null ? row[1].toString() : ""; // estado
-                        String charge = (String) row[2] != null ? row[2].toString() : ""; // estado
-                        Integer news = (Integer) Integer.parseInt(row[3].toString()); // estado
-                        Integer assigned = (Integer) Integer.parseInt(row[4].toString()); // estado
-                        Integer in_course = (Integer) Integer.parseInt(row[5].toString()); // estado
-                        Integer pending = (Integer) Integer.parseInt(row[6].toString()); // estado
-                        Integer solved = (Integer) Integer.parseInt(row[7].toString()); // estado
-                        Integer closed = (Integer) Integer.parseInt(row[8].toString()); // estado
-                        Integer cancelled = (Integer) Integer.parseInt(row[9].toString()); // estado
-                        Integer meta = (Integer) Integer.parseInt(row[10].toString()); // estado
+                        Integer id = (Integer) Integer.parseInt(row[0].toString()); // id
+                        String user = (String) row[1] != null ? row[1].toString() : ""; // user
+                        String charge = (String) row[2] != null ? row[2].toString() : ""; // charge
+                        Integer news = (Integer) Integer.parseInt(row[3].toString()); // news
+                        Integer assigned = (Integer) Integer.parseInt(row[4].toString()); // assigned
+                        Integer in_course = (Integer) Integer.parseInt(row[5].toString()); // in_course
+                        Integer pending = (Integer) Integer.parseInt(row[6].toString()); // pending
+                        Integer solved = (Integer) Integer.parseInt(row[7].toString()); // solved
+                        Integer closed = (Integer) Integer.parseInt(row[8].toString()); // closed
+                        Integer cancelled = (Integer) Integer.parseInt(row[9].toString()); // cancelled
+                        Integer meta = (Integer) Integer.parseInt(row[10].toString()); // meta
 
                         item.setId(id);
                         item.setUser(user);

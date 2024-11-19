@@ -34,14 +34,8 @@ public class MetasController {
         return metasService.getMetas();
     }
 
-    // @PostMapping("/metas/get-metas-filtered")
-    // public List<Metas> getMetasFiltered(@RequestBody MetasRequestSearch requestSearch) {
-    //     return metasService.getMetasFiltered(requestSearch);
-    // }
-
     @PostMapping("/metas/get-metas-filtered")
     public List<MetasFilteredDTO> getMetasFiltered(@RequestBody MetasRequestSearch requestSearch) {
-        // Llamar al servicio para obtener las metas filtradas
         return metasService.getMetasFiltered(requestSearch);
     }
 
@@ -55,12 +49,10 @@ public class MetasController {
         }
     }
 
-    // Endpoint para eliminar una meta por su ID
     @DeleteMapping("/metas/delete-meta")
     public ResponseEntity<?> deleteMeta(@RequestParam Integer id) {
-        // Lógica para eliminar la meta con el id proporcionado
         try {
-            metasService.deleteMeta(id); // Llama al servicio para eliminar la meta
+            metasService.deleteMeta(id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -69,29 +61,25 @@ public class MetasController {
     }
 
     @PutMapping("/metas/update-meta/{id}")
-public ResponseEntity<?> updateMeta(@PathVariable Integer id, @RequestBody Metas updatedMeta) {
-    // Verificar si la meta con el id existe
-    Optional<Metas> existingMeta = metasService.getMetaById(id);
-    
-    if (!existingMeta.isPresent()) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body("Meta no encontrada");
-    }
-    
-    // Actualizar la meta con los nuevos datos
-    Metas metaToUpdate = existingMeta.get();
-    metaToUpdate.setPeriodo(updatedMeta.getPeriodo());
-    metaToUpdate.setMeta(updatedMeta.getMeta());
-    // Actualizar otros campos de la meta si es necesario
-    
-    try {
-        metasService.saveMeta(metaToUpdate); // Guardar la meta actualizada
-        return ResponseEntity.ok(metaToUpdate); // Devolver la meta actualizada en la respuesta
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error al actualizar la meta");
-    }
-}
+    public ResponseEntity<?> updateMeta(@PathVariable Integer id, @RequestBody Metas updatedMeta) {
+        Optional<Metas> existingMeta = metasService.getMetaById(id);
 
+        if (!existingMeta.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Meta no encontrada");
+        }
+
+        Metas metaToUpdate = existingMeta.get();
+        metaToUpdate.setPeriodo(updatedMeta.getPeriodo());
+        metaToUpdate.setMeta(updatedMeta.getMeta());
+
+        try {
+            metasService.saveMeta(metaToUpdate);
+            return ResponseEntity.ok(metaToUpdate);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al actualizar la meta");
+        }
+    }
 
 }
