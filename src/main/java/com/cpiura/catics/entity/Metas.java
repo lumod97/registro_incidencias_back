@@ -19,15 +19,14 @@ public class Metas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // La estrategia para generar automáticamente el id
     @Column(name = "id", nullable = false)
-    private Integer 
-    id;
-    
+    private Integer id;
+
     @Column(name = "periodo", nullable = false)
     private String periodo;
 
-    @Column(name = "user_id", nullable=false)
+    @Column(name = "user_id", nullable = false)
     private String userId;
 
-    @Column(name="meta", nullable=false)
+    @Column(name = "meta", nullable = false)
     private Integer meta;
 }

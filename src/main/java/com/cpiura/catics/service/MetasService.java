@@ -22,7 +22,7 @@ import jakarta.persistence.StoredProcedureQuery;
 public class MetasService {
     @Autowired
     private MetasRepository metasRepository;
-    
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -31,9 +31,10 @@ public class MetasService {
     }
 
     // public List<Metas> getMetasFiltered(MetasRequestSearch requestSearch) {
-    //     return metasRepository.findByPeriodoOrUserId(requestSearch.getPeriodo(), requestSearch.getUserId());
+    // return metasRepository.findByPeriodoOrUserId(requestSearch.getPeriodo(),
+    // requestSearch.getUserId());
     // }
-    
+
     // Método para obtener las metas filtradas con JOIN usando consulta SQL nativa
     public List<MetasFilteredDTO> getMetasFiltered(MetasRequestSearch requestSearch) {
         // Consulta SQL nativa
@@ -54,10 +55,10 @@ public class MetasService {
 
         // Procesar los resultados
         for (Object[] row : results) {
-            Integer id = (Integer) row[0];  // id
-            String periodo = (String) row[1];   // periodo
-            Integer meta = (Integer) row[2];      // meta
-            String name = (String) row[3];      // name
+            Integer id = (Integer) row[0]; // id
+            String periodo = (String) row[1]; // periodo
+            Integer meta = (Integer) row[2]; // meta
+            String name = (String) row[3]; // name
 
             // Mapear los resultados a un DTO
             MetasFilteredDTO metaDTO = new MetasFilteredDTO(id, periodo, meta, name);

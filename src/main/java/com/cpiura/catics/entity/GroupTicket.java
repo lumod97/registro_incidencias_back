@@ -16,10 +16,9 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "glpi_groups_tickets", 
-       uniqueConstraints = {@UniqueConstraint(columnNames = {"tickets_id", "type", "groups_id"})},
-       indexes = {@Index(name = "group", columnList = "groups_id, type")}
-)
+@Table(name = "glpi_groups_tickets", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "tickets_id", "type", "groups_id" }) }, indexes = {
+                @Index(name = "group", columnList = "groups_id, type") })
 public class GroupTicket {
 
     @Id

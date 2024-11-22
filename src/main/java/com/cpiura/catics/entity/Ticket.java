@@ -143,5 +143,4 @@ public class Ticket {
     @Column(name = "date_creation")
     private Timestamp dateCreation;
 
-
 }

@@ -15,7 +15,6 @@ public class TicketService {
     private TicketRepository ticketRepository;
     // private ReporteTicketsRepository reporteTicketsRepository;
 
-
     public List<Ticket> getTop10Tickets() {
         return ticketRepository.findTop10ByOrderByIdDesc(); // Llama al método del repositorio
     }
