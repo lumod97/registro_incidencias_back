@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.cpiura.catics.DTO.RegisterRequest;
+import com.cpiura.catics.Provider.JwtProvider;
 import com.cpiura.catics.entity.Permission;
 import com.cpiura.catics.entity.Person;
 import com.cpiura.catics.entity.Role;
 import com.cpiura.catics.entity.User;
-import com.cpiura.catics.Provider.JwtProvider;
 import com.cpiura.catics.repository.PersonRepository;
 import com.cpiura.catics.repository.RoleRepository;
 import com.cpiura.catics.repository.UserRepository;

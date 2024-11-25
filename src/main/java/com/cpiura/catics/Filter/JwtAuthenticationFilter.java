@@ -2,6 +2,7 @@ package com.cpiura.catics.Filter;
 
 import java.util.Collections;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.IOException;
 import jakarta.servlet.FilterChain;
@@ -20,13 +22,9 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private static final String SECRET_KEY = "q7ne4SuV0VmUtkE1Ehabc4sdBAzAUBWJPWsS6DcHBea+E+coxWym2sVH9dyyyIkcBgjNtj0DcsGebi8oC/W2bg=="; // Usa
-    // una
-    // clave
-    // secreta
-    // robusta
-    // en
-    // producción
+    @Value("${jwt.secret}")
+    private static String jwtSecret; // Clave secreta para firmar los tokens
+
     private static final String HEADER = "Authorization";
     private static final String PREFIX = "Bearer ";
 
@@ -34,16 +32,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException, java.io.IOException {
         String jwtToken = getJwtFromRequest(request);
+        System.out.println("doFilterInternal");
 
         if (jwtToken != null && validateToken(jwtToken)) {
             Claims claims = extractClaims(jwtToken);
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     claims.getSubject(), null, Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
-            // authentication.setAuthenticated(true);
-            // authentication.setDetails(new
-            // WebAuthenticationDetailsSource().buildDetails(request));
-
-            // Establecer la autenticación en el contexto de seguridad de Spring
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
@@ -52,6 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     // Extrae el token JWT de los encabezados de la solicitud
     private String getJwtFromRequest(HttpServletRequest request) {
+        System.out.println("getJwtFromRequest");
         String bearerToken = request.getHeader(HEADER);
         System.out.println(bearerToken);
         if (bearerToken != null && bearerToken.startsWith(PREFIX)) {
@@ -62,6 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     // Valida el token JWT
     private boolean validateToken(String token) {
+        System.out.println("validateToken");
         try {
             extractClaims(token); // Si no lanza excepciones, el token es válido
             return true;
@@ -72,9 +68,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     // Extrae los claims (información del usuario) del token
     private Claims extractClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
-                .parseClaimsJws(token)
-                .getBody();
+        System.out.println("extractClaims");
+        // Decodificar jwtSecret si es necesario (si está en Base64)
+        byte[] keyBytes = java.util.Base64.getDecoder().decode(jwtSecret);
+
+        // Construir un JwtParser con el nuevo builder
+        JwtParser parser = Jwts.parserBuilder()
+                .setSigningKey(keyBytes)
+                .build();
+
+        // Validar el token
+        return parser.parseClaimsJws(token).getBody();
     }
+
 }

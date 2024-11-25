@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +21,7 @@ import com.cpiura.catics.Request.MetasRequestSearch;
 import com.cpiura.catics.entity.Metas;
 import com.cpiura.catics.service.MetasService;
 
-@CrossOrigin(origins = "http://localhost:4200")
+// @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 
 public class MetasController {
@@ -41,23 +40,14 @@ public class MetasController {
 
     @PostMapping("/metas/new-meta")
     public ResponseEntity<?> insertMeta(@RequestBody MetasRequest request) {
-        try {
-            Metas newMeta = metasService.insertMeta(request);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newMeta);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la meta");
-        }
+        Metas newMeta = metasService.insertMeta(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newMeta);
     }
 
     @DeleteMapping("/metas/delete-meta")
     public ResponseEntity<?> deleteMeta(@RequestParam Integer id) {
-        try {
-            metasService.deleteMeta(id);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al eliminar la meta");
-        }
+        metasService.deleteMeta(id);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/metas/update-meta/{id}")
@@ -73,13 +63,8 @@ public class MetasController {
         metaToUpdate.setPeriodo(updatedMeta.getPeriodo());
         metaToUpdate.setMeta(updatedMeta.getMeta());
 
-        try {
-            metasService.saveMeta(metaToUpdate);
-            return ResponseEntity.ok(metaToUpdate);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al actualizar la meta");
-        }
+        metasService.saveMeta(metaToUpdate);
+        return ResponseEntity.ok(metaToUpdate);
     }
 
 }
