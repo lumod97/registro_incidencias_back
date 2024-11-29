@@ -25,7 +25,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable()) // Desactiva CSRF
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/login", "/public/**", "/random-image", "/images/**", "/tickets/**")
+                        .requestMatchers("/api/auth/login",
+                                "/public/**",
+                                "/random-image",
+                                "/images/**",
+                                "/tickets/**",
+                                "/metas/**")
                         .permitAll() // Permite
                         // el
                         // acceso a
