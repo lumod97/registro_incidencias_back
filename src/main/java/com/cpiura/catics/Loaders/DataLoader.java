@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.cpiura.catics.entity.Permission;
@@ -31,6 +32,7 @@ public class DataLoader {
     private PasswordEncoder passwordEncoder;
 
     @Bean
+    @Order(1)
     CommandLineRunner initPermissions(PermissionRepository permissionRepository) {
         return args -> {
             if (permissionRepository.findByName("create_users").isEmpty()) {
@@ -50,6 +52,7 @@ public class DataLoader {
     }
 
     @Bean
+    @Order(2)
     CommandLineRunner initRoles(RoleRepository roleRepository) {
         return args -> {
             if (roleRepository.findByName("USER").isEmpty()) {
@@ -69,6 +72,7 @@ public class DataLoader {
     }
 
     @Bean
+    @Order(3)
     CommandLineRunner initUser(UserRepository userRepository, PersonRepository personRepository,
             RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         return args -> {
