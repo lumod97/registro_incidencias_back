@@ -17,6 +17,6 @@ public class GroupTicketController {
 
     @GetMapping("/group_ticket/top10")
     public List<GroupTicket> getTop10Tickets() {
-        return groupTicketService.getTop10Tickets(); // Calls the service to get the tickets
+        return groupTicketService.getTop10Tickets();
     }
 }

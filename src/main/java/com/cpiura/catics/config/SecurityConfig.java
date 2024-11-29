@@ -23,15 +23,21 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(csrf -> csrf.disable()) // Desactiva CSRF
+        return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/login", "/public/**", "/random-image", "/images/**", "/tickets/**")
-                        .permitAll() // Permite
-                        // el
-                        // acceso a
-                        // ciertos
-                        // endpoints
-                        .anyRequest().authenticated()) // Protege el resto de los endpoints
+                .requestMatchers("/api/auth/login",
+                "/public/**",
+                "/random-image",
+                "/images/**",
+                "/tickets/**",
+                "/api/glpi-new-torres/**",
+                "/api/users/**",
+                "/metas/**",
+                "api/glpi-new-trabajadores-torre/**",
+                "api/glpi-users/**"
+                )
+                .permitAll()
+                .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // Filtro JWT
                 .build();
     }

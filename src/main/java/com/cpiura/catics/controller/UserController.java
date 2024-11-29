@@ -56,7 +56,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
+    @GetMapping("/getAllUsers")
     public ResponseEntity<Iterable<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
