@@ -1,7 +1,6 @@
 package com.cpiura.catics.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,11 +19,11 @@ public class GlpiNewTrabajadoresTorre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "usuario_id", nullable = false)
     private GlpiUsers usuario;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "torre_id", nullable = false)
     private GlpiNewTorres torre;
 }

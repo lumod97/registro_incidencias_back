@@ -25,19 +25,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/login",
-                "/public/**",
-                "/random-image",
-                "/images/**",
-                "/tickets/**",
-                "/api/glpi-new-torres/**",
-                "/api/users/**",
-                "/metas/**",
-                "api/glpi-new-trabajadores-torre/**",
-                "api/glpi-users/**"
-                )
-                .permitAll()
-                .anyRequest().authenticated())
+                        .requestMatchers("/api/auth/login",
+                                "/public/**",
+                                "/random-image",
+                                "/images/**",
+                                "/tickets/**",
+                                "/api/glpi-new-torres/**",
+                                "/api/users/**",
+                                "/metas/**",
+                                "/api/glpi-new-trabajadores-torre",
+                                "/api/glpi-users")
+                        .permitAll()
+                        .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // Filtro JWT
                 .build();
     }
