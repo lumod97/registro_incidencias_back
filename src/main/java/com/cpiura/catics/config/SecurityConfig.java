@@ -34,6 +34,7 @@ public class SecurityConfig {
                                 "/api/users/**",
                                 "/metas/**",
                                 "/api/glpi-new-trabajadores-torre",
+                                "/api/glpi-new-trabajadores-torre/**",
                                 "/api/glpi-users")
                         .permitAll()
                         .anyRequest().authenticated())
