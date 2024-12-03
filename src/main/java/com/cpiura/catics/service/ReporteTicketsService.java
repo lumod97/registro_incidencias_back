@@ -1,5 +1,6 @@
 package com.cpiura.catics.service;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,28 +53,40 @@ public class ReporteTicketsService {
                         String tipo = (String) row[1]; // prioridad
                         String estado = (String) row[2]; // prioridad
 
+                        System.out.println(tipo);
+
                         // Incrementar el campo correspondiente en la entidad
-                        if(tipo.toLowerCase() == "incidencia"){
-                                if(estado.toLowerCase() == "atendido"){
+                        if ("incidencia".equals(tipo.toLowerCase())) {
+                                if ("atendido".equals(estado.toLowerCase())) {
                                         stats.setIncidencia_atendida(cantidad.intValue());
-                                }else if(estado.toLowerCase() == "atendido"){
+                                        System.out.println(estado);
+                                } else if ("atendido".equals(estado.toLowerCase())) {
                                         stats.setIncidencia_recibida(cantidad.intValue());
+                                        System.out.println(estado);
                                 }
                         }
-                        if(tipo.toLowerCase() == "solicitud"){
-                                if(estado.toLowerCase() == "atendido"){
+                        if ("solicitud".equals(tipo.toLowerCase())) {
+                                if ("atendido".equals(estado.toLowerCase())) {
                                         stats.setSolicitud_atendida(cantidad.intValue());
-                                }else if(estado.toLowerCase() == "atendido"){
+                                        System.out.println(estado);
+                                } else if ("atendido".equals(estado.toLowerCase())) {
                                         stats.setSolicitud_recibida(cantidad.intValue());
+                                        System.out.println(estado);
                                 }
+                        }
+
+                        {
+
                         }
                 }
 
                 return stats;
         }
-        public List<TicketsDashboardBandeja> getTicketStatisticsDashboardBandeja(TicketStatisticksPerMonthRequest request) {
+
+        public List<TicketsDashboardBandeja> getTicketStatisticsDashboardBandeja(
+                        TicketStatisticksPerMonthRequest request) {
                 StoredProcedureQuery query = entityManager.createStoredProcedureQuery(
-                                "sp_get_ticket_statistics_dashboard");
+                                "sp_get_ticket_statistics_dashboard_bandeja");
 
                 // Registra los parámetros con sus tipos y modos
                 query.registerStoredProcedureParameter(0, String.class, ParameterMode.IN);
@@ -88,15 +101,16 @@ public class ReporteTicketsService {
                 // Crear un objeto de TicketsPriorityStats y llenarlo con valores
                 // predeterminados
                 List<TicketsDashboardBandeja> lTicketsDashboardBandejas = new ArrayList<>();
-                
+
                 // Procesar los resultados
                 for (Object[] row : results) {
-                        TicketsDashboardBandeja stats = new TicketsDashboardBandeja("",0, 0, 0, 0);
-                        String torre = (String) row[0]; // prioridad
-                        Integer dev = (Integer) row[1]; // prioridad
-                        Integer qa = (Integer) row[2]; // prioridad
-                        Integer prod = (Integer) row[3]; // prioridad
-                        Integer total = (Integer) row[3]; // prioridad
+                        TicketsDashboardBandeja stats = new TicketsDashboardBandeja("", new BigDecimal("0"),
+                                        new BigDecimal("0"), new BigDecimal("0"), new BigDecimal("0"));
+                        String torre = (String) row[0];
+                        BigDecimal dev = (BigDecimal) row[1];
+                        BigDecimal qa = (BigDecimal) row[2];
+                        BigDecimal prod = (BigDecimal) row[3];
+                        BigDecimal total = (BigDecimal) row[4];
 
                         stats.setTorre(torre);
                         stats.setDev(dev);

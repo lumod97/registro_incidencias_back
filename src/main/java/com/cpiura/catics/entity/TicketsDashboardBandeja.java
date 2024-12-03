@@ -1,5 +1,7 @@
 package com.cpiura.catics.entity;
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,8 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TicketsDashboardBandeja {
     private String torre;
-    private Integer dev;
-    private Integer qa;
-    private Integer prod;
-    private Integer total;
+    private BigDecimal dev;
+    private BigDecimal qa;
+    private BigDecimal prod;
+    private BigDecimal total;
 }
