@@ -13,6 +13,8 @@ import com.cpiura.catics.Request.TicketStatisticksPerMonthRequest;
 import com.cpiura.catics.entity.GetTicketsByUserId;
 import com.cpiura.catics.entity.ReportPerPerson;
 import com.cpiura.catics.entity.ReporteTickets;
+import com.cpiura.catics.entity.TicketsDashboardBandeja;
+import com.cpiura.catics.entity.TicketsDashboardPerMonth;
 import com.cpiura.catics.entity.TicketsPriorityStats;
 import com.cpiura.catics.entity.TicketsStatusStats;
 
@@ -25,6 +27,87 @@ public class ReporteTicketsService {
 
         @Autowired
         private EntityManager entityManager;
+
+        public TicketsDashboardPerMonth getTicketStatisticsDashboard(TicketStatisticksPerMonthRequest request) {
+                StoredProcedureQuery query = entityManager.createStoredProcedureQuery(
+                                "sp_get_ticket_statistics_dashboard");
+
+                // Registra los parámetros con sus tipos y modos
+                query.registerStoredProcedureParameter(0, String.class, ParameterMode.IN);
+                query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+
+                // Configura los valores de los parámetros
+                query.setParameter(0, request.getAnio());
+                query.setParameter(1, request.getMonth());
+                @SuppressWarnings("unchecked")
+                List<Object[]> results = query.getResultList();
+
+                // Crear un objeto de TicketsPriorityStats y llenarlo con valores
+                // predeterminados
+                TicketsDashboardPerMonth stats = new TicketsDashboardPerMonth(0, 0, 0, 0);
+
+                // Procesar los resultados
+                for (Object[] row : results) {
+                        Long cantidad = (Long) row[0]; // cantidad
+                        String tipo = (String) row[1]; // prioridad
+                        String estado = (String) row[2]; // prioridad
+
+                        // Incrementar el campo correspondiente en la entidad
+                        if(tipo.toLowerCase() == "incidencia"){
+                                if(estado.toLowerCase() == "atendido"){
+                                        stats.setIncidencia_atendida(cantidad.intValue());
+                                }else if(estado.toLowerCase() == "atendido"){
+                                        stats.setIncidencia_recibida(cantidad.intValue());
+                                }
+                        }
+                        if(tipo.toLowerCase() == "solicitud"){
+                                if(estado.toLowerCase() == "atendido"){
+                                        stats.setSolicitud_atendida(cantidad.intValue());
+                                }else if(estado.toLowerCase() == "atendido"){
+                                        stats.setSolicitud_recibida(cantidad.intValue());
+                                }
+                        }
+                }
+
+                return stats;
+        }
+        public List<TicketsDashboardBandeja> getTicketStatisticsDashboardBandeja(TicketStatisticksPerMonthRequest request) {
+                StoredProcedureQuery query = entityManager.createStoredProcedureQuery(
+                                "sp_get_ticket_statistics_dashboard");
+
+                // Registra los parámetros con sus tipos y modos
+                query.registerStoredProcedureParameter(0, String.class, ParameterMode.IN);
+                query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+
+                // Configura los valores de los parámetros
+                query.setParameter(0, request.getAnio());
+                query.setParameter(1, request.getMonth());
+                @SuppressWarnings("unchecked")
+                List<Object[]> results = query.getResultList();
+
+                // Crear un objeto de TicketsPriorityStats y llenarlo con valores
+                // predeterminados
+                List<TicketsDashboardBandeja> lTicketsDashboardBandejas = new ArrayList<>();
+                
+                // Procesar los resultados
+                for (Object[] row : results) {
+                        TicketsDashboardBandeja stats = new TicketsDashboardBandeja("",0, 0, 0, 0);
+                        String torre = (String) row[0]; // prioridad
+                        Integer dev = (Integer) row[1]; // prioridad
+                        Integer qa = (Integer) row[2]; // prioridad
+                        Integer prod = (Integer) row[3]; // prioridad
+                        Integer total = (Integer) row[3]; // prioridad
+
+                        stats.setTorre(torre);
+                        stats.setDev(dev);
+                        stats.setProd(prod);
+                        stats.setQa(qa);
+                        stats.setTotal(total);
+                        lTicketsDashboardBandejas.add(stats);
+                }
+
+                return lTicketsDashboardBandejas;
+        }
 
         public TicketsPriorityStats getTicketStatisticsPerMonth(TicketStatisticksPerMonthRequest request) {
                 StoredProcedureQuery query = entityManager.createStoredProcedureQuery(

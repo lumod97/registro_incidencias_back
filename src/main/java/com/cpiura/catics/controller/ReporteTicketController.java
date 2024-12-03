@@ -15,6 +15,8 @@ import com.cpiura.catics.Request.TicketStatisticksPerMonthRequest;
 import com.cpiura.catics.entity.GetTicketsByUserId;
 import com.cpiura.catics.entity.ReportPerPerson;
 import com.cpiura.catics.entity.ReporteTickets;
+import com.cpiura.catics.entity.TicketsDashboardBandeja;
+import com.cpiura.catics.entity.TicketsDashboardPerMonth;
 import com.cpiura.catics.entity.TicketsPriorityStats;
 import com.cpiura.catics.entity.TicketsStatusStats;
 import com.cpiura.catics.service.ReporteTicketsService;
@@ -39,6 +41,16 @@ public class ReporteTicketController {
     @PostMapping("/tickets/get-ticket-statistics-per-month")
     public TicketsPriorityStats getTicketsStatisticsPerMonth(@RequestBody TicketStatisticksPerMonthRequest request) {
         return reporteTicketsService.getTicketStatisticsPerMonth(request);
+    }
+
+    @PostMapping("/tickets/get-ticket-statistics-dashboard")
+    public TicketsDashboardPerMonth getTicketsDashboardPerMonth(@RequestBody TicketStatisticksPerMonthRequest request) {
+        return reporteTicketsService.getTicketStatisticsDashboard(request);
+    }
+    
+    @PostMapping("/tickets/get-ticket-statistics-dashboard-bandeja")
+    public List<TicketsDashboardBandeja> getTicketStatisticsDashboardBandeja(@RequestBody TicketStatisticksPerMonthRequest request) {
+        return reporteTicketsService.getTicketStatisticsDashboardBandeja(request);
     }
 
     @PostMapping("/tickets/get-ticket-statistics-per-status-monthly")
