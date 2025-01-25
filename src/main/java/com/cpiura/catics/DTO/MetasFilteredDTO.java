@@ -17,6 +17,4 @@ public class MetasFilteredDTO {
         this.meta = meta;
         this.name = name;
     }
-
-    // Getters y setters
 }

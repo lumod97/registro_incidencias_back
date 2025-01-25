@@ -2,11 +2,12 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.4'
     id 'io.spring.dependency-management' version '1.1.6'
+    id 'war'
 }
 
 
 group = 'com.cpiura'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 
 java {
     toolchain {
@@ -19,28 +20,30 @@ repositories {
 }
 
 dependencies {
-        developmentOnly("org.springframework.boot:spring-boot-devtools")
-
-    implementation 'org.springframework.boot:spring-boot-starter'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'mysql:mysql-connector-java:8.0.33' // O la versión más reciente
-
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    
     // Lombok
     implementation 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
+    // Spring Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
+    // JWT
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5' // Para usar Jackson como serializer/deserializer
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
+    // Devtools
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     // Test dependencies
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
+
 
 // Exclude Protobuf if not used
 configurations {
@@ -53,4 +56,10 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+tasks.named('bootJar') {
+    enabled = false
+}
 
+tasks.named('bootWar') {
+    enabled = true
+}
