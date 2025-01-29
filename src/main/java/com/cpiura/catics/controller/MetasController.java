@@ -22,7 +22,8 @@ import com.cpiura.catics.Request.MetasRequestSearch;
 import com.cpiura.catics.entity.Metas;
 import com.cpiura.catics.service.MetasService;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 
 public class MetasController {

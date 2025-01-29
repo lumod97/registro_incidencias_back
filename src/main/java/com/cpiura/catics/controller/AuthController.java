@@ -16,7 +16,8 @@ import com.cpiura.catics.service.UserService;
 
 import lombok.NoArgsConstructor;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/auth")
 @NoArgsConstructor

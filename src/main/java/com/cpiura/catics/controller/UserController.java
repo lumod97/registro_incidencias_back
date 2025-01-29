@@ -23,7 +23,8 @@ import com.cpiura.catics.entity.Permission;
 import com.cpiura.catics.entity.Role;
 import com.cpiura.catics.entity.User;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

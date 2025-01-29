@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cpiura.catics.entity.GlpiNewTrabajadoresTorre;
 import com.cpiura.catics.service.GlpiNewTrabajadoresTorreService;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/glpi-new-trabajadores-torre")
 public class GlpiNewTrabajadoresTorreController {

@@ -21,7 +21,8 @@ import com.cpiura.catics.entity.TicketsPriorityStats;
 import com.cpiura.catics.entity.TicketsStatusStats;
 import com.cpiura.catics.service.ReporteTicketsService;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 public class ReporteTicketController {
 
