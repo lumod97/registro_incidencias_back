@@ -3,7 +3,6 @@ package com.cpiura.catics.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +21,7 @@ import com.cpiura.catics.entity.TicketsStatusStats;
 import com.cpiura.catics.service.ReporteTicketsService;
 
 //@CrossOrigin(origins = "http://localhost:4200")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 @RestController
 public class ReporteTicketController {
 
@@ -48,14 +47,16 @@ public class ReporteTicketController {
     public TicketsDashboardPerMonth getTicketsDashboardPerMonth(@RequestBody TicketStatisticksPerMonthRequest request) {
         return reporteTicketsService.getTicketStatisticsDashboard(request);
     }
-    
+
     @PostMapping("/tickets/get-ticket-statistics-dashboard-bandeja")
-    public List<TicketsDashboardBandeja> getTicketStatisticsDashboardBandeja(@RequestBody TicketStatisticksPerMonthRequest request) {
+    public List<TicketsDashboardBandeja> getTicketStatisticsDashboardBandeja(
+            @RequestBody TicketStatisticksPerMonthRequest request) {
         return reporteTicketsService.getTicketStatisticsDashboardBandeja(request);
     }
 
     @PostMapping("/tickets/get-ticket-statistics-per-status-monthly")
-    public TicketsStatusStats getTicketStatisticsPerStatusMonthly(@RequestBody TicketStatisticksPerMonthRequest request) {
+    public TicketsStatusStats getTicketStatisticsPerStatusMonthly(
+            @RequestBody TicketStatisticksPerMonthRequest request) {
         return reporteTicketsService.getTicketStatisticsPerStatusMonthly(request);
     }
 
